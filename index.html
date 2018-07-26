@@ -84,7 +84,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="promise-使用"><a href="#promise-使用" class="headerlink" title="promise 使用"></a>promise 使用</h1><p>javascript是异步单线程的，所有操作的返回结果都是在回调函数中进行处理。</p>
+        <p>javascript是异步单线程的，所有操作的返回结果都是在回调函数中进行处理。</p>
 <p>所以对于依赖于上一步处理的结果进行下一步处理的情况，就会存在回调函数的多层嵌套，其可读性也会随着嵌套的增多而变差。如下所示</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">functionA(para, <span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    functionB(para, <span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">        functionC(para, <span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">            functionD(para, <span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>而ES6提供了promise来供我们处理这种链式情况，使代码的可读性更好，并可以用异步的方式来处理同步问题。</p>
@@ -135,7 +135,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/promise/" data-id="cjk1vbg9v000270rhf1e2a0hf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/26/promise/" data-id="cjk1vcukc00026srhfy2pbaff" class="article-share-link">Share</a>
       
       
     </footer>
@@ -171,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/09/readme-md/" data-id="cjk1vbg91000170rhnydp22as" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/09/readme-md/" data-id="cjk1vcuiz00006srhhn84q7ih" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/27/hello-world/" data-id="cjk1vbg84000070rhdzixyuwd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/04/27/hello-world/" data-id="cjk1vcuj800016srhakdoy7oz" class="article-share-link">Share</a>
       
       
     </footer>
