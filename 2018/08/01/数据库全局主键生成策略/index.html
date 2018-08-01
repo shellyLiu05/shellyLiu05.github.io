@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据库全局主键生成策略 | shellyLiu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="auto-incrementing(主键自增)数据库中设置为int，short的主键，可直接依赖数据库的自增机制，按数值顺序自增，新插入的记录的id值等于上条记录id值加1。 优点：生成简单，记录有序，查询效率高。 缺点：写性能直接影响了每秒生成主键值的数量，扩展差，对于分布式数据库，可能存在重复id UUIDuuid 是由一定算法（包括MAC地址，时间戳等）计算生成的16字节128位长的数字，通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库全局主键生成策略">
+<meta property="og:url" content="http://yoursite.com/2018/08/01/数据库全局主键生成策略/index.html">
+<meta property="og:site_name" content="shellyLiu">
+<meta property="og:description" content="auto-incrementing(主键自增)数据库中设置为int，short的主键，可直接依赖数据库的自增机制，按数值顺序自增，新插入的记录的id值等于上条记录id值加1。 优点：生成简单，记录有序，查询效率高。 缺点：写性能直接影响了每秒生成主键值的数量，扩展差，对于分布式数据库，可能存在重复id UUIDuuid 是由一定算法（包括MAC地址，时间戳等）计算生成的16字节128位长的数字，通">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-01T09:22:43.910Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库全局主键生成策略">
+<meta name="twitter:description" content="auto-incrementing(主键自增)数据库中设置为int，short的主键，可直接依赖数据库的自增机制，按数值顺序自增，新插入的记录的id值等于上条记录id值加1。 优点：生成简单，记录有序，查询效率高。 缺点：写性能直接影响了每秒生成主键值的数量，扩展差，对于分布式数据库，可能存在重复id UUIDuuid 是由一定算法（包括MAC地址，时间戳等）计算生成的16字节128位长的数字，通">
+  
+    <link rel="alternate" href="/atom.xml" title="shellyLiu" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">shellyLiu</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数据库全局主键生成策略" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/01/数据库全局主键生成策略/" class="article-date">
+  <time datetime="2018-08-01T09:21:30.000Z" itemprop="datePublished">2018-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库全局主键生成策略
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="auto-incrementing-主键自增"><a href="#auto-incrementing-主键自增" class="headerlink" title="auto-incrementing(主键自增)"></a>auto-incrementing(主键自增)</h2><p>数据库中设置为int，short的主键，可直接依赖数据库的自增机制，按数值顺序自增，新插入的记录的id值等于上条记录id值加1。</p>
+<p>优点：生成简单，记录有序，查询效率高。</p>
+<p>缺点：写性能直接影响了每秒生成主键值的数量，扩展差，对于分布式数据库，可能存在重复id</p>
+<h2 id="UUID"><a href="#UUID" class="headerlink" title="UUID"></a>UUID</h2><p>uuid 是由一定算法（包括MAC地址，时间戳等）计算生成的16字节128位长的数字，通常由由 8-4-4-4-12的形式组成的36位字符串表示。</p>
+<p>示例如下：</p>
+<p>43028980-824a-11e7-90ff-05a17a466c71</p>
+<p>uuid的组成如下所示</p>
+<p>uuid.PNG</p>
+<p>分为多个版本，不同版本对应的node不同，有基于时间的（v1）, 基于DCE的（v2），使用MD5基于名字的（v3）, 基于随机数的（v4），使用SHA-1基于名字（v5）。</p>
+<p>具体的算法请参照：</p>
+<p><a href="https://tools.ietf.org/html/rfc4122#section-4" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc4122#section-4</a></p>
+<p>其中基于时间的uuid（v1）使用MAC地址，可以保证id全球范围内唯一。</p>
+<p>优点：</p>
+<p>v1适合应用分布式环境，有高度的唯一性。</p>
+<p>缺点：</p>
+<p>字符串长度过长，占用存储空间，无法保证递增，通过索引查询效率低。</p>
+<h2 id="当前时间毫秒与微秒生成"><a href="#当前时间毫秒与微秒生成" class="headerlink" title="当前时间毫秒与微秒生成"></a>当前时间毫秒与微秒生成</h2><p>优点：生成方式简单，递增。</p>
+<p>缺点：1微秒内生成多个会重复，分布式集群时无法保证唯一性。</p>
+<h2 id="建立id表方式"><a href="#建立id表方式" class="headerlink" title="建立id表方式"></a>建立id表方式</h2><p>专门用n台服务器各自维护一张Sequence表，表中存储的记录为下次使用的id值，id值的增长步进为服务器的数量，id的初值分别为1,2,…，n。每个id表每次需要新id时，向服务器进行申请，并设置下次的id值。</p>
+<p>优点：</p>
+<p>进行了分流，改善了当某台服务器无法使用了，就无法生成主键的问题，解决了性能瓶颈和单点问题。主键自增，能提高查询效率。</p>
+<p>缺点：</p>
+<p>服务器数量定好后，后续的扩展空间不大，服务器增加数量越多，维护成本也大。</p>
+<h2 id="snowflake"><a href="#snowflake" class="headerlink" title="snowflake"></a>snowflake</h2><p>为Twitter发布的一套主键生成策略，只有2010年的版本，依赖Twitter内部的Infrastructure，目前已没有维护。可以参考其思路。</p>
+<p>结构：</p>
+<p>0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000</p>
+<p>第1位未使用，紧接着41bit为时间戳，再接着10bit为工作机器id，再接着为12bit序列号。</p>
+<p>参考：<a href="https://github.com/twitter/snowflake" target="_blank" rel="noopener">https://github.com/twitter/snowflake</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/01/数据库全局主键生成策略/" data-id="cjkaxkb9a0005zsrhixo1s8c8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/01/nodejs通过child_process.exec调用shell脚本/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          nodejs通过child_process.exec调用shell脚本
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/01/webpack/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">webpack</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/01/mysql备份/">mysql备份与恢复</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/nodejs通过child_process.exec调用shell脚本/">nodejs通过child_process.exec调用shell脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/数据库全局主键生成策略/">数据库全局主键生成策略</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/webpack/">webpack</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/数据库/">数据库</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shelly liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

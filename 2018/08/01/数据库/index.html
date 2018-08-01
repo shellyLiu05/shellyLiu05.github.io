@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据库 | shellyLiu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="数据库存储引擎 数据结构CHAR和VARCHAR的不同之处  存储不同，CHAR是分配固定长度存储空间，VARCHAR根据实际字符串长度分配存储空间 对字符串末尾的空格处理不同，CHAR在存储时会删除掉末尾的空格，VARCHAR不会  MySQL中不同的存储引擎对CHAR和VARCHAR的使用原则不同  MyISAM：建议使用CHAR代替VARCHAR  MEMORY：无论使用CHAR或VARCH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库">
+<meta property="og:url" content="http://yoursite.com/2018/08/01/数据库/index.html">
+<meta property="og:site_name" content="shellyLiu">
+<meta property="og:description" content="数据库存储引擎 数据结构CHAR和VARCHAR的不同之处  存储不同，CHAR是分配固定长度存储空间，VARCHAR根据实际字符串长度分配存储空间 对字符串末尾的空格处理不同，CHAR在存储时会删除掉末尾的空格，VARCHAR不会  MySQL中不同的存储引擎对CHAR和VARCHAR的使用原则不同  MyISAM：建议使用CHAR代替VARCHAR  MEMORY：无论使用CHAR或VARCH">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/数据库/常用引擎对比.PNG">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/数据库/char和varchar对比.PNG">
+<meta property="og:updated_time" content="2018-08-01T09:18:15.662Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库">
+<meta name="twitter:description" content="数据库存储引擎 数据结构CHAR和VARCHAR的不同之处  存储不同，CHAR是分配固定长度存储空间，VARCHAR根据实际字符串长度分配存储空间 对字符串末尾的空格处理不同，CHAR在存储时会删除掉末尾的空格，VARCHAR不会  MySQL中不同的存储引擎对CHAR和VARCHAR的使用原则不同  MyISAM：建议使用CHAR代替VARCHAR  MEMORY：无论使用CHAR或VARCH">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/01/数据库/常用引擎对比.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="shellyLiu" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">shellyLiu</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数据库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/01/数据库/" class="article-date">
+  <time datetime="2018-08-01T09:14:58.000Z" itemprop="datePublished">2018-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="数据库存储引擎"><a href="#数据库存储引擎" class="headerlink" title="数据库存储引擎"></a>数据库存储引擎</h2><p><img src="/2018/08/01/数据库/常用引擎对比.PNG" alt="Alt text"></p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p><img src="/2018/08/01/数据库/char和varchar对比.PNG" alt="Alt text"><br>CHAR和VARCHAR的不同之处</p>
+<ol>
+<li>存储不同，CHAR是分配固定长度存储空间，VARCHAR根据实际字符串长度分配存储空间</li>
+<li>对字符串末尾的空格处理不同，CHAR在存储时会删除掉末尾的空格，VARCHAR不会</li>
+</ol>
+<p>MySQL中不同的存储引擎对CHAR和VARCHAR的使用原则不同<br>  MyISAM：建议使用CHAR代替VARCHAR<br>  MEMORY：无论使用CHAR或VARCHAR，都作为CHAR来处理<br>  InnoDB：建议使用VARCHAR</p>
+<h2 id="数据库安全"><a href="#数据库安全" class="headerlink" title="数据库安全"></a>数据库安全</h2><h3 id="SQL注入攻击"><a href="#SQL注入攻击" class="headerlink" title="SQL注入攻击"></a>SQL注入攻击</h3><h4 id="攻击例子："><a href="#攻击例子：" class="headerlink" title="攻击例子："></a>攻击例子：</h4><p>场景：<br>浏览器上输入用户名，显示个人信息<br>查询语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM info_table WHERE name = &apos;user1&apos;</span><br></pre></td></tr></table></figure>
+<p>假定用户输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user1&apos;; drop table info_table--</span><br></pre></td></tr></table></figure>
+<p>数据库的查询语句将变成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM info_table WHERE name = &apos;user1&apos;; drop table info_table--</span><br></pre></td></tr></table></figure>
+<p>分号 (;) 表示一个查询的结束和另一个查询的开始。双连字符 (–) 指示当前行余下的部分是   一个注释，应该忽略。<br>那么该语句将直接把数据库的info_table表删除</p>
+<h4 id="防治方法："><a href="#防治方法：" class="headerlink" title="防治方法："></a>防治方法：</h4><ol>
+<li>不要直接拼接SQL语句，使用参数化查询来设计数据访问<br>在使用参数化查询的情况下，数据库服务器不会将参数的内容视为SQL指令的一部分来处理，而是在数据库完成SQL指令的编译后，才套用参数运行，因此就算参数中含有具破坏性的指令，也不会被数据库所运行。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> nodejs 为例，可使用？来参数化查询</span><br><span class="line">connection.query(<span class="string">'UPDATE users SET foo = ?, bar = ?, baz = ? WHERE id = ?'</span>, [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, userId], <span class="function"><span class="keyword">function</span> (<span class="params">error, results, fields</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (error) <span class="keyword">throw</span> error;</span><br><span class="line">  <span class="comment">// ... </span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="number">2.</span> nodejs也提供mysql.escape(), connection.escape() 和 pool.escape()方法来避免SQL注入攻击</span><br><span class="line"><span class="keyword">var</span> userId = <span class="string">'some user provided value'</span>;</span><br><span class="line"><span class="keyword">var</span> sql    = <span class="string">'SELECT * FROM users WHERE id = '</span> + connection.escape(userId);</span><br><span class="line">connection.query(sql, <span class="function"><span class="keyword">function</span> (<span class="params">error, results, fields</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (error) <span class="keyword">throw</span> error;</span><br><span class="line">  <span class="comment">// ... </span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>验证所有输入<br>始终通过测试类型、长度、格式和范围来验证用户输入<br>1）限制输入数据的类型，大小，避免缓冲区溢出<br>2）限制字符串变量的内容<br>3）如果可能，拒绝SQL中的特殊字符</p>
+<p>| 特殊字符    | SQL中的含义 |<br>| :—— | :—— |<br>| ;       | 查询分隔符   |<br>| ‘       | 字符串分隔符  |<br>| –      | 注释分隔符   |<br>| /<em>…</em>/ | 注释分隔符   |</p>
+</li>
+<li><p>​</p>
+</li>
+<li><p>应用发布之前使用专业检测工具检测，开源工具有sqlmap、SQLninja等</p>
+</li>
+<li><p>避免将SQL的错误信息打印给外部，防止暴露数据库内部结构</p>
+</li>
+</ol>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+<h3 id="数据库相关操作"><a href="#数据库相关操作" class="headerlink" title="数据库相关操作"></a>数据库相关操作</h3><h4 id="1-显示所有数据库"><a href="#1-显示所有数据库" class="headerlink" title="1. 显示所有数据库"></a>1. 显示所有数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br></pre></td></tr></table></figure>
+<h4 id="2-切换到指定数据库"><a href="#2-切换到指定数据库" class="headerlink" title="2. 切换到指定数据库"></a>2. 切换到指定数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use databaseName;</span><br></pre></td></tr></table></figure>
+<h4 id="3-删除指定数据库"><a href="#3-删除指定数据库" class="headerlink" title="3. 删除指定数据库"></a>3. 删除指定数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop database databaseName;</span><br></pre></td></tr></table></figure>
+<h3 id="表相关操作"><a href="#表相关操作" class="headerlink" title="表相关操作"></a>表相关操作</h3><h4 id="1-显示当前数据库中的所有表"><a href="#1-显示当前数据库中的所有表" class="headerlink" title="1. 显示当前数据库中的所有表"></a>1. 显示当前数据库中的所有表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br></pre></td></tr></table></figure>
+<h4 id="2-创建表"><a href="#2-创建表" class="headerlink" title="2. 创建表"></a>2. 创建表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table tableName(id varchar(10), name varchar(10));</span><br></pre></td></tr></table></figure>
+<h4 id="3-修改表"><a href="#3-修改表" class="headerlink" title="3. 修改表"></a>3. 修改表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table tableName modify name varchar(32);</span><br></pre></td></tr></table></figure>
+<h4 id="4-增加表字段"><a href="#4-增加表字段" class="headerlink" title="4. 增加表字段"></a>4. 增加表字段</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table tableName add column sex varchar(10);</span><br></pre></td></tr></table></figure>
+<h4 id="5-删除表字段"><a href="#5-删除表字段" class="headerlink" title="5. 删除表字段"></a>5. 删除表字段</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table tableName drop column sex;</span><br></pre></td></tr></table></figure>
+<h4 id="6-表字段改名"><a href="#6-表字段改名" class="headerlink" title="6. 表字段改名"></a>6. 表字段改名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table tableName change column name new_name;</span><br></pre></td></tr></table></figure>
+<h4 id="5-查看表详细字段及定义"><a href="#5-查看表详细字段及定义" class="headerlink" title="5. 查看表详细字段及定义"></a>5. 查看表详细字段及定义</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; desc tablename;</span><br></pre></td></tr></table></figure>
+<h4 id="6-删除表"><a href="#6-删除表" class="headerlink" title="6. 删除表"></a>6. 删除表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop table tableName;</span><br></pre></td></tr></table></figure>
+<h3 id="存储引擎相关操作"><a href="#存储引擎相关操作" class="headerlink" title="存储引擎相关操作"></a>存储引擎相关操作</h3><h4 id="1-查看数据库支持的存储引擎"><a href="#1-查看数据库支持的存储引擎" class="headerlink" title="1. 查看数据库支持的存储引擎"></a>1. 查看数据库支持的存储引擎</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show engines;</span><br></pre></td></tr></table></figure>
+<h4 id="2-修改存储引擎"><a href="#2-修改存储引擎" class="headerlink" title="2. 修改存储引擎"></a>2. 修改存储引擎</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table tableName engine =engineName;</span><br></pre></td></tr></table></figure>
+<h4 id="3-查看某表使用的引擎"><a href="#3-查看某表使用的引擎" class="headerlink" title="3. 查看某表使用的引擎"></a>3. 查看某表使用的引擎</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.通过查看表状态查看</span><br><span class="line">mysql&gt; desc tablename;</span><br><span class="line">2.通过显示表创建语句查看</span><br><span class="line">mysql&gt; show create table tablename;</span><br><span class="line">3.通过显示表的当前状态值查看</span><br><span class="line">mysql&gt; show table status like ‘tablename’\G</span><br></pre></td></tr></table></figure>
+<h3 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h3><ol>
+<li>创建用户</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE USER &apos;username&apos;@&apos;host&apos; IDENTIFIED BY &apos;password&apos;;</span><br><span class="line">或</span><br><span class="line">mysql&gt; INSERT INTO user(Host,User,Password) values(&apos;host&apos;,&apos;username&apos;,&apos;password&apos;);</span><br></pre></td></tr></table></figure>
+<p>在user表Host值的指定方法：<br>Host值可以是主机名或IP号，或’localhost’指出本地主机。<br>你可以在Host列值使用通配符字符“%”和“_”。<br>Host值’%’匹配任何主机名，空Host值等价于’%’。它们的含义与LIKE操作符的模式匹配操作相同。例如，’%’的Host值与所有主机名匹配，而’%.mysql.com’匹配mysql.com域的所有主机。</p>
+<p>2.查看用户表（需root用户）<br>用户表信息在mysql的user表中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT User, Host, Password FROM mysql.user;</span><br></pre></td></tr></table></figure>
+<p>3.查看用户的权限<br>查看当前用户权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show grants;</span><br></pre></td></tr></table></figure>
+<p>查看指定用户权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show grants for &apos;username&apos;@&apos;host&apos;;</span><br></pre></td></tr></table></figure>
+<p>4.分配权限<br>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">GRANT</span><br><span class="line">    priv_type [(column_list)]</span><br><span class="line">      [, priv_type [(column_list)]] ...</span><br><span class="line">    ON [object_type] priv_level</span><br><span class="line">    TO user [auth_option] [, user [auth_option]] ...</span><br><span class="line">    [REQUIRE &#123;NONE | tls_option [[AND] tls_option] ...&#125;]</span><br><span class="line">    [WITH &#123;GRANT OPTION | resource_option&#125; ...]</span><br><span class="line"></span><br><span class="line">GRANT PROXY ON user</span><br><span class="line">    TO user [, user] ...</span><br><span class="line">    [WITH GRANT OPTION]</span><br><span class="line"></span><br><span class="line">object_type: &#123;</span><br><span class="line">    TABLE</span><br><span class="line">  | FUNCTION</span><br><span class="line">  | PROCEDURE</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">priv_level: &#123;</span><br><span class="line">    *</span><br><span class="line">  | *.*</span><br><span class="line">  | db_name.*</span><br><span class="line">  | db_name.tbl_name</span><br><span class="line">  | tbl_name</span><br><span class="line">  | db_name.routine_name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">user:</span><br><span class="line">    (see Section 6.2.3, “Specifying Account Names”)</span><br><span class="line"></span><br><span class="line">auth_option: &#123;</span><br><span class="line">    IDENTIFIED BY &apos;auth_string&apos;</span><br><span class="line">  | IDENTIFIED WITH auth_plugin</span><br><span class="line">  | IDENTIFIED WITH auth_plugin BY &apos;auth_string&apos;</span><br><span class="line">  | IDENTIFIED WITH auth_plugin AS &apos;hash_string&apos;</span><br><span class="line">  | IDENTIFIED BY PASSWORD &apos;hash_string&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">tls_option: &#123;</span><br><span class="line">    SSL</span><br><span class="line">  | X509</span><br><span class="line">  | CIPHER &apos;cipher&apos;</span><br><span class="line">  | ISSUER &apos;issuer&apos;</span><br><span class="line">  | SUBJECT &apos;subject&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">resource_option: &#123;</span><br><span class="line">  | MAX_QUERIES_PER_HOUR count</span><br><span class="line">  | MAX_UPDATES_PER_HOUR count</span><br><span class="line">  | MAX_CONNECTIONS_PER_HOUR count</span><br><span class="line">  | MAX_USER_CONNECTIONS count</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>格式为：<br>grant 权限 on 数据库对象 to 用户<br>详细参见：<br><a href="https://dev.mysql.com/doc/refman/5.7/en/grant.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/grant.html</a></p>
+<p>例子：<br>1）给user1配置test数据库的查询，插入权限（允许user1对test数据库的所有表进行查询插入）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; GRANT SELECT INSERT on test.* to &apos;user1&apos;@&apos;%&apos;;</span><br></pre></td></tr></table></figure>
+<p>2）给user1配置test数据库table1的查询，插入权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; GRANT SELECT INSERT on test.table1 to &apos;user1&apos;@&apos;%&apos;;</span><br></pre></td></tr></table></figure>
+<p>5.回收权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">REVOKE</span><br><span class="line">    priv_type [(column_list)]</span><br><span class="line">      [, priv_type [(column_list)]] ...</span><br><span class="line">    ON [object_type] priv_level</span><br><span class="line">    FROM user [, user] ...</span><br><span class="line"></span><br><span class="line">REVOKE ALL [PRIVILEGES], GRANT OPTION</span><br><span class="line">    FROM user [, user] ...</span><br><span class="line"></span><br><span class="line">REVOKE PROXY ON user</span><br><span class="line">    FROM user [, user] ...</span><br></pre></td></tr></table></figure>
+<p>格式为：<br>REVOKE 权限 on 数据库对象 to 用户</p>
+<p>例子：<br>回收user1 的所有delete权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; REVOKE DELETE on *.* from &apos;user1&apos;@&apos;%&apos;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/01/数据库/" data-id="cjkaxkb9b0006zsrhk7f4lobq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/01/webpack/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          webpack
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/26/EMQ安装与配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">EMQ安装与配置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/01/mysql备份/">mysql备份与恢复</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/nodejs通过child_process.exec调用shell脚本/">nodejs通过child_process.exec调用shell脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/数据库全局主键生成策略/">数据库全局主键生成策略</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/webpack/">webpack</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/数据库/">数据库</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shelly liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

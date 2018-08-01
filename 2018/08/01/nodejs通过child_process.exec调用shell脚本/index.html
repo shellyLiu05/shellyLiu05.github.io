@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>nodejs通过child_process.exec调用shell脚本 | shellyLiu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="某些场景的处理可能用其他语言脚本比Nodejs更方便，nodejs只需要调用脚本处理来获取结果，以做进一步处理。那么nodejs如何调用脚本并获取脚本执行的结果呢？ child_process模块可以实现该功能。 12345678910111213141516171819child_process.exec(command[, options][, callback])参数含义：command">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs通过child_process.exec调用shell脚本">
+<meta property="og:url" content="http://yoursite.com/2018/08/01/nodejs通过child_process.exec调用shell脚本/index.html">
+<meta property="og:site_name" content="shellyLiu">
+<meta property="og:description" content="某些场景的处理可能用其他语言脚本比Nodejs更方便，nodejs只需要调用脚本处理来获取结果，以做进一步处理。那么nodejs如何调用脚本并获取脚本执行的结果呢？ child_process模块可以实现该功能。 12345678910111213141516171819child_process.exec(command[, options][, callback])参数含义：command">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-01T09:23:58.514Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nodejs通过child_process.exec调用shell脚本">
+<meta name="twitter:description" content="某些场景的处理可能用其他语言脚本比Nodejs更方便，nodejs只需要调用脚本处理来获取结果，以做进一步处理。那么nodejs如何调用脚本并获取脚本执行的结果呢？ child_process模块可以实现该功能。 12345678910111213141516171819child_process.exec(command[, options][, callback])参数含义：command">
+  
+    <link rel="alternate" href="/atom.xml" title="shellyLiu" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">shellyLiu</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-nodejs通过child_process.exec调用shell脚本" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/01/nodejs通过child_process.exec调用shell脚本/" class="article-date">
+  <time datetime="2018-08-01T09:23:09.000Z" itemprop="datePublished">2018-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nodejs通过child_process.exec调用shell脚本
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>某些场景的处理可能用其他语言脚本比Nodejs更方便，nodejs只需要调用脚本处理来获取结果，以做进一步处理。那么nodejs如何调用脚本并获取脚本执行的结果呢？</p>
+<p>child_process模块可以实现该功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">child_process.exec(command[, options][, callback])</span><br><span class="line"></span><br><span class="line">参数含义：</span><br><span class="line">command  运行的命令，参数使用空格分隔。</span><br><span class="line">options</span><br><span class="line">    cwd 子进程的当前工作目录。</span><br><span class="line">    env 环境变量键值对。</span><br><span class="line">    encoding  默认为 utf8。</span><br><span class="line">    shell  执行命令的 shell。在 UNIX 上默认为 `&apos;/bin/sh&apos;`，在 Windows 上默认为 `process.env.ComSpec`。</span><br><span class="line">    timeout 默认为 `0`。</span><br><span class="line">    maxBuffer  stdout 或 stderr 允许的最大字节数。默认为 200*1024。如果超过限制，则子进程会被终止。</span><br><span class="line">    killSignal 默认为 &apos;SIGTERM&apos;。</span><br><span class="line">    uid 设置进程的用户标识。</span><br><span class="line">    gid 设置进程的组标识。</span><br><span class="line">    windowsHide 隐藏子进程的控制台窗口，常用于 Windows 系统。默认为 false。</span><br><span class="line">callback 进程终止时调用。</span><br><span class="line">    error</span><br><span class="line">    stdout</span><br><span class="line">    stderr</span><br></pre></td></tr></table></figure>
+<p>command 中可以直接使用shell 命令或是其他脚本文件的执行命令。</p>
+<p>child_process.exec是新开一个进程进行处理，不会阻塞nodejs之后的代码的运行。</p>
+<p>child_process.exec执行完command后，如果有回调函数，会调用回调函数callback，回调函数有三个参数，error,stdout, stderr.</p>
+<p>如果执行成功，error为null，执行失败，error为Error对象（<a href="http://nodejs.cn/api/errors.html#errors_errors%EF%BC%89" target="_blank" rel="noopener">http://nodejs.cn/api/errors.html#errors_errors）</a></p>
+<p>脚本执行后的结果从stdout和stderr中获得，默认的编码方式是utf8，可以通过option中的encoding来设置实际的编码方式。</p>
+<p>举例：</p>
+<p>调用shell 命令</p>
+<p>新建testexec.js文件</p>
+<ol>
+<li>测试date命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var exec = require(&apos;child_process&apos;).exec;</span><br><span class="line">var colors = require( &quot;colors&quot;)</span><br><span class="line">exec(&quot;date&quot;, function(err, stdout, stderr)&#123;</span><br><span class="line">  console.log(&quot;\n---&gt;test shell command date result:&quot;.green);</span><br><span class="line">  console.log(&apos;err:&apos;);</span><br><span class="line">  console.log(err);</span><br><span class="line">  console.log(&apos;stdout:&apos; + stdout);</span><br><span class="line">  console.log(&apos;stderr:&apos; + stderr);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>执行node testexec.js, 结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---&gt;test shell command date result:</span><br><span class="line">err:</span><br><span class="line">null</span><br><span class="line">stdout:2018年 05月 27日 星期日 15:21:32 CST</span><br><span class="line"></span><br><span class="line">stderr:</span><br></pre></td></tr></table></figure>
+<p>执行成功，输出在stdout中。</p>
+<ol>
+<li>测试不存在的shell命令qwe</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var exec = require(&apos;child_process&apos;).exec;</span><br><span class="line">var colors = require( &quot;colors&quot;)</span><br><span class="line">exec(&quot;qwr&quot;, function(err, stdout, stderr)&#123;</span><br><span class="line">  console.log(&quot;\n---&gt;test undefined shell command qwr result:&quot;.green);</span><br><span class="line">  console.log(&apos;err:&apos;);</span><br><span class="line">  console.log(err);</span><br><span class="line">  console.log(&apos;stdout:&apos; + stdout);</span><br><span class="line">  console.log(&apos;stderr:&apos; + stderr);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">---&gt;test undefined shell command qwr result:</span><br><span class="line">err:</span><br><span class="line">&#123; Error: Command failed: qwr</span><br><span class="line">/bin/sh: 1: qwr: not found</span><br><span class="line">    at ChildProcess.exithandler (child_process.js:270:12)</span><br><span class="line">    at emitTwo (events.js:125:13)</span><br><span class="line">    at ChildProcess.emit (events.js:213:7)</span><br><span class="line">    at maybeClose (internal/child_process.js:927:16)</span><br><span class="line">    at Socket.stream.socket.on (internal/child_process.js:348:11)</span><br><span class="line">    at emitOne (events.js:115:13)</span><br><span class="line">    at Socket.emit (events.js:210:7)</span><br><span class="line">    at Pipe._handle.close [as _onclose] (net.js:545:12) killed: false, code: 127, signal: null, cmd: &apos;qwr&apos; &#125;</span><br><span class="line">stdout:</span><br><span class="line">stderr:/bin/sh: 1: qwr: not found</span><br></pre></td></tr></table></figure>
+<p>执行失败，err参数输出Error对象，错误信息输出在stderr中。</p>
+<ol>
+<li>调用python脚本</li>
+</ol>
+<p><a href="http://xn--pythontest-lg1th85dmnegp4i.py" target="_blank" rel="noopener">新建python脚本test.py</a>，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- encoding: utf-8 -*-</span><br><span class="line">import sys</span><br><span class="line">argv1 = sys.argv[1]</span><br><span class="line">if argv1 != &apos;1&apos;:  </span><br><span class="line">  sys.stderr.write(&apos;argv error&apos;)</span><br><span class="line">  sys.exit(-1)</span><br><span class="line">print(&apos;argv correct&apos;)</span><br><span class="line">sys.stdout.write(&apos;success&apos;)</span><br></pre></td></tr></table></figure>
+<p>该脚本实现的是，当输入参数为1时，输出success，否则输出argv error.</p>
+<p>调用python脚本代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">exec(&quot;python test.py 1&quot;, function(err, stdout, stderr)&#123;</span><br><span class="line">  console.log(&quot;\n---&gt;test python file with argv 1:&quot;.green);</span><br><span class="line">  console.log(&apos;err:&apos;);</span><br><span class="line">  console.log(err);</span><br><span class="line">  console.log(&apos;stdout:&apos; + stdout);</span><br><span class="line">  console.log(&apos;stderr:&apos; + stderr);</span><br><span class="line">&#125;);</span><br><span class="line">exec(&quot;python test.py 2&quot;, function(err, stdout, stderr)&#123;</span><br><span class="line">  console.log(&quot;\n---&gt;test python file with other argv :&quot;.green);</span><br><span class="line">  console.log(&apos;err:&apos;);</span><br><span class="line">  console.log(err);</span><br><span class="line">  console.log(&apos;stdout:&apos; + stdout);</span><br><span class="line">  console.log(&apos;stderr:&apos; + stderr);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">---&gt;test python file with argv 1:</span><br><span class="line">err:</span><br><span class="line">null</span><br><span class="line">stdout:argv correct</span><br><span class="line">success</span><br><span class="line">stderr:</span><br><span class="line"></span><br><span class="line">---&gt;test python file with other argv :</span><br><span class="line">err:</span><br><span class="line">&#123; Error: Command failed: python test.py 2</span><br><span class="line">argv error</span><br><span class="line">    at ChildProcess.exithandler (child_process.js:270:12)</span><br><span class="line">    at emitTwo (events.js:125:13)</span><br><span class="line">    at ChildProcess.emit (events.js:213:7)</span><br><span class="line">    at maybeClose (internal/child_process.js:927:16)</span><br><span class="line">    at Socket.stream.socket.on (internal/child_process.js:348:11)</span><br><span class="line">    at emitOne (events.js:115:13)</span><br><span class="line">    at Socket.emit (events.js:210:7)</span><br><span class="line">    at Pipe._handle.close [as _onclose] (net.js:545:12)</span><br><span class="line">  killed: false,</span><br><span class="line">  code: 255,</span><br><span class="line">  signal: null,</span><br><span class="line">  cmd: &apos;python test.py 2&apos; &#125;</span><br><span class="line">stdout:</span><br><span class="line">stderr:argv error</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，如果调用的是其他语言的脚本文件，需要将执行结果或出错结果输出到stdout或stderr中，这样才能在process_child.exec的回调参数中进行处理。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/01/nodejs通过child_process.exec调用shell脚本/" data-id="cjkaxkb970003zsrhcdtdybgd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/01/mysql备份/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mysql备份与恢复
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/01/数据库全局主键生成策略/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数据库全局主键生成策略</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/01/mysql备份/">mysql备份与恢复</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/nodejs通过child_process.exec调用shell脚本/">nodejs通过child_process.exec调用shell脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/数据库全局主键生成策略/">数据库全局主键生成策略</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/webpack/">webpack</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/数据库/">数据库</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 shelly liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
